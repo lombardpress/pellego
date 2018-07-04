@@ -1,0 +1,39 @@
+@import "base/variables";
+
+
+// my custom foundation
+@import "base/base";
+
+//Components
+
+//@import "components/fullText";
+@import "components/text";
+@import "components/ceteicean";
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App-header {
+
+  text-align: center;
+  background-color: #262626;
+  //height: 150px;
+  padding: 0px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1{
+    padding: 0;
+    margin: 0;
+  }
+}
+
+a {
+  color: #7498e8
+}

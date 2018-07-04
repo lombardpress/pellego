@@ -1,0 +1,26 @@
+.text {
+  width: 60%;
+  margin: auto;
+}
+
+
+.text {
+    counter-reset: paragraph;
+    padding-left: 20px;
+}
+.text tei-p {
+
+}
+.text tei-p:before {
+    position: absolute;
+    margin-left: -20px;
+    color: #CCC;
+    content: counter(paragraph);
+    counter-increment: paragraph;
+}
+
+.addUrl{
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+}
