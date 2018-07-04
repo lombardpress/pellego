@@ -9,6 +9,7 @@
 # production
 /build
 /pellego-darwin-x64
+/pellego-darwin-x64.zip
 
 # misc
 .DS_Store
