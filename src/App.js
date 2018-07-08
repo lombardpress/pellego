@@ -4,6 +4,7 @@ import './styles/app.css';
 import Text from './Text.js'
 import Collection from './Collection.js'
 import AddUrl from './AddUrl.js'
+import Header from './Header.js'
 import axios from 'axios'
 
 class App extends Component {
@@ -17,25 +18,28 @@ class App extends Component {
       //this.retrieveText = this.retrieveText.bind(this)
   }
   state = {
-    collectionUrl: "http://localhost:8080/plaoulcommentary.json",
-    collectionData: undefined,
-    textUrl: "",
-    textData: "",
-    visible: "collection"
+    collectionUrl: this.props.configOptions.collectionUrl,
+    collectionData: this.props.configOptions.collectionData,
+    textUrl: this.props.configOptions.textUrl,
+    textData: this.props.configOptions.textData,
+    visible: this.props.configOptions.visible,
+    showHeader: this.props.configOptions.showHeader,
+    showAddUrl: this.props.configOptions.showAddUrl
   }
   componentDidMount(){
-    //this.retrieveText()
-    //this.retrieveCollectionData()
-    this.handleCollectionUrlUpdate(this.state.collectionUrl)
+
+    if (this.state.visible == "text"){
+      this.handleUrlUpdate(this.state.textUrl)
+    }
+    else{
+      this.handleCollectionUrlUpdate(this.state.collectionUrl)
+    }
   }
   handleUrlUpdate(url, visible="text", clearCollection=false) {
-    console.log("test", url)
-
     axios.get(url)
       .then(res => {
-        console.log(res.data)
         const text = res.data
-        //this.handleTextDataUpdate(text)
+
         this.setState(
           {
             textUrl: url,
@@ -58,7 +62,6 @@ class App extends Component {
     console.log(url)
     axios.get(url)
       .then(res => {
-        console.log(res.data)
         const collectionData = res.data
         //this.handleCollectionDataUpdate(collectionData)
         this.setState(
@@ -67,59 +70,23 @@ class App extends Component {
             visible: visible,
             collectionData: collectionData,
             textUrl: "",
-            textData: "",
+            textData: ""
           }
         )
       });
 
   }
-  // handleCollectionDataUpdate(data) {
-  //   console.log("test from App.handleCollectionDataUpdate")
-  //   this.setState(
-  //     {
-  //       collectionData: data,
-  //     }
-  //   )
-  // }
-  // handleTextDataUpdate(data) {
-  //   console.log("test from App.handleCollectionDataUpdate")
-  //   this.setState(
-  //     {
-  //       textData: data,
-  //     }
-  //   )
-  // }
-  // retrieveCollectionData(){
-  //   axios.get(this.state.collectionUrl)
-  //     .then(res => {
-  //       console.log(res.data)
-  //       const collectionData = res.data
-  //       this.handleCollectionDataUpdate(collectionData)
-  //     });
-  // }
-  // retrieveText(){
-  //   axios.get(this.props.textUrl)
-  //     .then(res => {
-  //       console.log(res.data)
-  //       const text = res.data
-  //       this.handleTextDataUpdate(text)
-  //     });
-  // }
+
   render() {
     console.log("state at render", this.state)
     return (
       <div className="App">
-        <header className="App-header">
-          <div>
-            <h1 className="App-title">Pellego</h1>
-          </div>
-          <p>A <a href="http://lombardpress.org">LombardPress</a> Application | Powered by <a href="http://scta.info">SCTA</a> Data</p>
-
-        </header>
+        {this.state.showHeader && <Header/>}
+        {this.state.showAddUrl &&
         <AddUrl
           handleUrlUpdate={this.handleUrlUpdate}
           handleCollectionUrlUpdate={this.handleCollectionUrlUpdate}
-        />
+        />}
         <div className="text-wrapper">
           {this.state.collectionData &&
             <Collection
@@ -128,12 +95,12 @@ class App extends Component {
               handleUrlUpdate={this.handleUrlUpdate}
               textUrl={this.state.textUrl}
             />}
-            {this.state.textData &&
-            <Text
-              textUrl={this.state.textUrl}
-              textData={this.state.textData}
-              collectionData={this.state.collectionData}
-          />}
+          {this.state.textData &&
+          <Text
+            textUrl={this.state.textUrl}
+            textData={this.state.textData}
+            collectionData={this.state.collectionData}
+        />}
         </div>
       </div>
     );
